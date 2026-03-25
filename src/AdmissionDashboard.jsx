@@ -1,5 +1,5 @@
 // src/AdmissionDashboard.jsx
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 
 import { DashboardProvider, useDashboard } from "./context/DashboardContext";
@@ -13,7 +13,7 @@ import LoadingSkeleton from "./components/LoadingSkeleton";
 // ============================================================
 // Inner content — has access to context via useDashboard hook
 // ============================================================
-const DashboardContent = () => {
+const DashboardContent = ({setBackgroundColor,backgroundColor}) => {
     const { loading, error, summary, perProgram, trends, recentApplications, lastFetched, loadData } = useDashboard();
 
     const hasFetched = useRef(false);
@@ -25,6 +25,10 @@ const DashboardContent = () => {
         loadData();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const bgChange = () => {
+        setBackgroundColor(!backgroundColor)
+
+    } 
     // Error state
     // Error state
     if (error) {
@@ -167,6 +171,11 @@ const DashboardContent = () => {
                         </span>
                     )}
                 </button>
+
+                <button className="relative flex items-center gap-2 px-5 py-2.5 text-sm font-semibold
+    text-white rounded-xl shadow-lg shadow-indigo-900/40
+    transition-all duration-200 active:scale-95 w-fit
+    overflow-hidden" onClick={bgChange}>Change Color</button>
             </div>
 
             {/* ── STAT CARDS ── */}
@@ -221,28 +230,5 @@ const DashboardContent = () => {
 // ============================================================
 // Root export — wraps everything in DashboardProvider
 // ============================================================
-const AdmissionDashboard = () => (
-    <DashboardProvider>
-        <div className="min-h-screen bg-slate-900 text-slate-100">
-            {/* Nav bar */}
-            <nav className="bg-slate-800/80 backdrop-blur border-b border-slate-700/50 px-4 md:px-8 py-4">
-                <div className="max-w-7xl mx-auto flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-sm font-bold">
-                        U
-                    </div>
-                    <span className="font-bold text-slate-100 text-lg tracking-tight">University Admin Portal</span>
-                    <span className="ml-auto text-xs text-slate-500 hidden sm:block">
-                        {moment().format("dddd, MMMM D YYYY")}
-                    </span>
-                </div>
-            </nav>
 
-            {/* Main content */}
-            <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-                <DashboardContent />
-            </main>
-        </div>
-    </DashboardProvider>
-);
-
-export default AdmissionDashboard;
+export default DashboardContent;

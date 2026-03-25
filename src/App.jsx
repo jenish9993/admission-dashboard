@@ -1,6 +1,6 @@
 // src/App.jsx
-import AdmissionDashboard from "./AdmissionDashboard";
+import AdminDashboardMain from "./AdminDashboardMain";
 
 export default function App() {
-  return <AdmissionDashboard />;
+  return <AdminDashboardMain />;
 }
